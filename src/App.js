@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
+import React from 'react';
 
+const Route = ({ path, component }) => {
+  const pathname = window.location.pathname;
+  if (pathname.match(path)) {
+    return (
+      React.createElement(component)
+    );
+  } else {
+    return null;
+  }
+};
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className='ui text container'>
@@ -29,6 +35,8 @@ class App extends Component {
         <hr />
 
         {/* We'll insert the Route components here */}
+        <Route path='/atlantic' component={Atlantic} />
+        <Route path='/pacific' component={Pacific} />
       </div>
     );
   }
