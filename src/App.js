@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowswerRouter as Router,
+  Route
+} from 'react-router';
+
 
 class App extends Component {
   render() {
-    return (
-
-    );
+    <Router>
+      {/* router will go here */}
+    </Router>
   }
 }
 
