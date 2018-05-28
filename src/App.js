@@ -4,6 +4,23 @@ import PropTypes from 'prop-types';
 
 //const history = createHistory();
 
+class Redirect extends React.Component {
+  static contextTypes = {
+    history: PropTypes.object,
+  }
+
+  componentDidMount() {
+    const history = this.context.history;
+    const to = this.props.to;
+    // redirect to the 'to' page
+    history.push(to);
+  }
+
+  render() {
+    return null;
+  }
+}
+
 const Route = ({ path, component }) => {
   const pathname = window.location.pathname;
   if (pathname.match(path)) {
@@ -86,6 +103,7 @@ const App = () => (
 
       <Route path='/atlantic' component={Atlantic} />
       <Route path='/pacific' component={Pacific} />
+      <Route path='/black-sea' component={BlackSea} />
     </div>
   </Router>
 );
@@ -109,5 +127,40 @@ const Pacific = () => (
     </p>
   </div>
 );
+
+class BlackSea extends React.Component {
+  state = {
+    counter: 3,
+  };
+
+  componentDidMount() {
+    this.interval = setInterval(() => (
+      this.setState(prevState => {
+        return {
+          counter: prevState.counter - 1,
+        };
+      }
+    )), 1000);
+  };
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  };
+
+  render() {
+    return (
+      <div>
+        <h3>Black Sea</h3>
+        <p>Nothing to sea [sic] here ...</p>
+        <p>Redirecting in {this.state.counter}...</p>
+        {
+          (this.state.counter < 1) ? (
+            <Redirect to='/' />
+          ) : null
+        }
+      </div>
+    );
+  }  
+}
 
 export default App;
