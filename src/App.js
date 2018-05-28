@@ -1,76 +1,82 @@
 import React from 'react';
-import createHistory from 'history/createBrowserHistory';
+//import createHistory from 'history/createBrowserHistory';
 import PropTypes from 'prop-types';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 
 //const history = createHistory();
 
-class Redirect extends React.Component {
-  static contextTypes = {
-    history: PropTypes.object,
-  }
+// class Redirect extends React.Component {
+//   static contextTypes = {
+//     history: PropTypes.object,
+//   }
 
-  componentDidMount() {
-    const history = this.context.history;
-    const to = this.props.to;
-    // redirect to the 'to' page
-    history.push(to);
-  }
+//   componentDidMount() {
+//     const history = this.context.history;
+//     const to = this.props.to;
+//     // redirect to the 'to' page
+//     history.push(to);
+//   }
 
-  render() {
-    return null;
-  }
-}
+//   render() {
+//     return null;
+//   }
+// }
 
-const Route = ({ path, component }) => {
-  const pathname = window.location.pathname;
-  if (pathname.match(path)) {
-    return (
-      React.createElement(component)
-    );
-  } else {
-    return null;
-  }
-};
+// const Route = ({ path, component }) => {
+//   const pathname = window.location.pathname;
+//   if (pathname.match(path)) {
+//     return (
+//       React.createElement(component)
+//     );
+//   } else {
+//     return null;
+//   }
+// };
 
-const Link = ({ to, children }, {history}) => (
-  <a
-    onClick={(e) => {
-      e.preventDefault();
-      history.push(to);
-    }}
-    href={to}
-  >
-    {children}
-  </a>
-);
+// const Link = ({ to, children }, {history}) => (
+//   <a
+//     onClick={(e) => {
+//       e.preventDefault();
+//       history.push(to);
+//     }}
+//     href={to}
+//   >
+//     {children}
+//   </a>
+// );
 
-Link.contextTypes = {
-  history: PropTypes.object,
-}
+// Link.contextTypes = {
+//   history: PropTypes.object,
+// }
 
-class Router extends React.Component {
-  static childContextTypes = {
-    history: PropTypes.object,
-    location: PropTypes.object,
-  };
+// class Router extends React.Component {
+//   static childContextTypes = {
+//     history: PropTypes.object,
+//     location: PropTypes.object,
+//   };
 
-  constructor(props) {
-    super(props);
-    this.history = createHistory();
-    this.history.listen(() => this.forceUpdate());
-  }
+//   constructor(props) {
+//     super(props);
+//     this.history = createHistory();
+//     this.history.listen(() => this.forceUpdate());
+//   }
 
-  getChildContext() {
-    return {
-      history: this.history,
-      location: window.location,
-    };
-  }
+//   getChildContext() {
+//     return {
+//       history: this.history,
+//       location: window.location,
+//     };
+//   }
 
-  render() {
-    return this.props.children;
-  }
-}
+//   render() {
+//     return this.props.children;
+//   }
+// }
 
 const App = () => (
   <Router>
@@ -92,18 +98,25 @@ const App = () => (
             <code>/pacific</code>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link to='/black-sea'>
             <code>/black-sea</code>
           </Link>
-        </li>
+        </li> */}
       </ul>
 
       <hr />
-
+      <Route path='/atlantic/ocean' render={() => (
+        <div>
+          <h3>Atlantic Ocean - Again!</h3>
+          <p>
+            Also known as 'The Pond.'
+          </p>
+        </div>
+      )} />
       <Route path='/atlantic' component={Atlantic} />
       <Route path='/pacific' component={Pacific} />
-      <Route path='/black-sea' component={BlackSea} />
+      {/* <Route path='/black-sea' component={BlackSea} /> */}
     </div>
   </Router>
 );
@@ -128,39 +141,39 @@ const Pacific = () => (
   </div>
 );
 
-class BlackSea extends React.Component {
-  state = {
-    counter: 3,
-  };
+// class BlackSea extends React.Component {
+//   state = {
+//     counter: 3,
+//   };
 
-  componentDidMount() {
-    this.interval = setInterval(() => (
-      this.setState(prevState => {
-        return {
-          counter: prevState.counter - 1,
-        };
-      }
-    )), 1000);
-  };
+//   componentDidMount() {
+//     this.interval = setInterval(() => (
+//       this.setState(prevState => {
+//         return {
+//           counter: prevState.counter - 1,
+//         };
+//       }
+//     )), 1000);
+//   };
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  };
+//   componentWillUnmount() {
+//     clearInterval(this.interval);
+//   };
 
-  render() {
-    return (
-      <div>
-        <h3>Black Sea</h3>
-        <p>Nothing to sea [sic] here ...</p>
-        <p>Redirecting in {this.state.counter}...</p>
-        {
-          (this.state.counter < 1) ? (
-            <Redirect to='/' />
-          ) : null
-        }
-      </div>
-    );
-  }  
-}
+//   render() {
+//     return (
+//       <div>
+//         <h3>Black Sea</h3>
+//         <p>Nothing to sea [sic] here ...</p>
+//         <p>Redirecting in {this.state.counter}...</p>
+//         {
+//           (this.state.counter < 1) ? (
+//             <Redirect to='/' />
+//           ) : null
+//         }
+//       </div>
+//     );
+//   }  
+// }
 
 export default App;
